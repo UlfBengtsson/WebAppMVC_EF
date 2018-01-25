@@ -23,6 +23,7 @@ namespace WebEF.Controllers
             Person me = new Person();
             me.Name = "Bobbo";
             me.Age = 99;
+            me.City = "LA";
 
             db.people.Add(me); //Adds Bobbo to DB
             db.SaveChanges();  // saves the changes (add Bobbo)
