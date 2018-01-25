@@ -1,0 +1,103 @@
+﻿@model IEnumerable<WebEF.Models.Person>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Web.Config</h3>
+        <code>
+            <span class="glyphicon glyphicon-chevron-left"></span>connectionStrings<span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="glyphicon glyphicon-chevron-left"></span>add name="ConnectionName" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\MyDbFile.mdf;Initial Catalog=MyDbFile;Integrated Security=True" providerName="System.Data.SqlClient" /<span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="glyphicon glyphicon-chevron-left"></span>/connectionStrings<span class="glyphicon glyphicon-chevron-right"></span>
+        </code>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h3>DbContext</h3>
+        <code>
+            public class MyDBcontext : DbContext
+            {
+            public MyDBcontext () : base("ConnectionName")
+            { }
+
+            public DbSet<ExClass>
+                ExClasses { get; set; }
+
+                }
+        </code>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Package Manager Console</h3>
+        <div class="row">
+            <p>For when you only have one DbContext</p>
+            <code>
+                Enable-Migrations -EnableAutomaticMigrations
+            </code>
+        </div>
+        <div class="row">
+            <p>For when you have more then one DbContext</p>
+            <code>
+                Enable-Migrations -ContextTypeName AppName.Models.MyDbContext -MigrationsDirectory Migrations\MyDbContext
+            </code>
+        </div>
+        <div class="row">
+            <p>For when you only have one DbContext</p>
+            <code>
+                Update-Database
+            </code>
+        </div>
+        <div class="row">
+            <p>If your changes of Class/Model might remove data from you Database</p>
+            <code>
+                Update-Database -Force
+            </code>
+        </div>
+        <div class="row">
+            <p>For when you have more then one Migrations Configuration</p>
+            <code>
+                Update-Database -ConfigurationTypeName AppName.Migrations.MyDbContext.Configuration
+            </code>
+        </div>
+    </div>
+</div>
