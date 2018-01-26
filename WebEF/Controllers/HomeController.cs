@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebEF.Models;
@@ -14,7 +15,7 @@ namespace WebEF.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            List<Person> myList = db.people.ToList();
+            List<Person> myList = db.People.ToList();
             return View(myList);
         }
 
@@ -25,10 +26,47 @@ namespace WebEF.Controllers
             me.Age = 99;
             me.City = "LA";
 
-            db.people.Add(me); //Adds Bobbo to DB
+            db.People.Add(me); //Adds Bobbo to DB
             db.SaveChanges();  // saves the changes (add Bobbo)
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Person person = db.People.Include("Cars").SingleOrDefault(p => p.Id == id);
+            if (person == null)
+            {
+                return HttpNotFound();
+            }
+            return View(person);
+        }
+
+        [HttpGet]
+        public ActionResult AddCarToPerson(int pId)
+        {
+            List<Car> cars = db.Cars.ToList();
+
+            ViewBag.pId = pId;//Person Id
+
+            return View(cars);
+        }
+        [HttpGet]
+        public ActionResult CarToPerson(int cId, int pId)
+        {
+            Car car = db.Cars.SingleOrDefault(c => c.Id == cId);
+
+            Person person = db.People.Include("Cars").SingleOrDefault(p => p.Id == pId);
+
+            person.Cars.Add(car);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = pId });
         }
     }
 }

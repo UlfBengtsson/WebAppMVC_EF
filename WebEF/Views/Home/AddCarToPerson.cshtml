@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WebEF.Models.Car>
+
+@{
+    ViewBag.Title = "AddCarToPerson";
+}
+
+<h2>Add Car To Person</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Brand)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Brand)
+        </td>
+        <td>                                              @*Car Id*@    @*Person Id*@
+            @Html.ActionLink("Add", "CarToPerson", new { cId=item.Id, pId=ViewBag.pId })
+        </td>
+    </tr>
+}
+
+</table>
