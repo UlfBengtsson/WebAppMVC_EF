@@ -97,6 +97,11 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Img\ConnectionString.jpg" />
+    <Content Include="Content\Img\DbContext.jpg" />
+    <Content Include="Content\Img\MVCproject.jpg" />
+    <Content Include="Content\Img\NuGet.jpg" />
+    <Content Include="Content\Img\WebConfig.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -115,7 +120,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -125,7 +132,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Inspection.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\C_Status.cs" />
     <Compile Include="Models\PeopleDbContext.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,9 +13,29 @@ namespace WebEF.Controllers
         PeopleDbContext db = new PeopleDbContext();
 
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index(string orderBy)
         {
-            List<Person> myList = db.People.ToList();
+            List<Person> myList = new List<Person>();
+            if (string.IsNullOrEmpty(orderBy))
+            {
+                ViewBag.OrderNameBy = "NameA";
+                myList = db.People.ToList();
+            }
+            else
+            {
+                switch (orderBy)
+                {
+                    case "NameA":
+                        myList = db.People.OrderBy(p => p.Name).ToList();
+                        ViewBag.OrderNameBy = "NameD";
+                        break;
+                    case "NameD":
+                        myList = db.People.OrderByDescending(p => p.Name).ToList();
+                        ViewBag.OrderNameBy = "NameA";
+                        break;
+                }
+            }
+            
             return View(myList);
         }
 

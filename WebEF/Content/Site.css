@@ -16,3 +16,51 @@ textarea {
     max-width: 280px;
 }
 
+footer {
+    text-align: center;
+}
+
+.oneTab {
+    padding-left: 2em;
+}
+
+#hintProj:hover + #imgProj {
+    visibility: visible;
+}
+#imgProj {
+    visibility: hidden;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+#hintNuGet:hover + #imgNuGet {
+    visibility: visible;
+}
+#imgNuGet {
+    visibility: hidden;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+#hintWebConfig:hover + #imgWebConfig {
+    visibility: visible;
+}
+#imgWebConfig {
+    visibility: hidden;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+#hintCString:hover + #imgCString {
+    visibility: visible;
+}
+
+#imgCString {
+    visibility: hidden;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    width: 60%;
+    z-index: 1;
+}

@@ -14,5 +14,6 @@ namespace WebEF.Models
 
         public DbSet<Person> People { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Inspection> Inspections { get; set; }
     }
 }

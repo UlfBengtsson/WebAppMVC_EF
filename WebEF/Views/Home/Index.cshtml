@@ -12,7 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            <a href="@Url.Action("Index","Home", new { orderBy = ViewBag.OrderNameBy })">
+                @Html.DisplayNameFor(model => model.Name)
+            </a>
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Age)
@@ -38,7 +41,7 @@
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) @*|
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
             </td>
         </tr>
     }
@@ -46,64 +49,146 @@
 </table>
 
 <div class="row">
+    <h2>How to install Entity Framework in a Empty - MVC project in Visual Studio </h2>
     <div class="col-md-12">
-        <h3>Web.Config</h3>
-        <code>
-            <span class="glyphicon glyphicon-chevron-left"></span>connectionStrings<span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="glyphicon glyphicon-chevron-left"></span>add name="ConnectionName" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\MyDbFile.mdf;Initial Catalog=MyDbFile;Integrated Security=True" providerName="System.Data.SqlClient" /<span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="glyphicon glyphicon-chevron-left"></span>/connectionStrings<span class="glyphicon glyphicon-chevron-right"></span>
-        </code>
+        <div class="row">
+            <h3>Step 1: Install Entity Framework</h3>
+            <ol class="list-group">
+                <li class="list-group-item">Right-click on your project name in Solution Explorer <span id="hintProj" class="glyphicon glyphicon-picture"></span><img id="imgProj" src="~/Content/Img/MVCproject.jpg" /></li>
+                <li class="list-group-item">Open the "Manage NuGet packages" for your MVC project <span id="hintNuGet" class="glyphicon glyphicon-picture"></span><img id="imgNuGet" src="~/Content/Img/NuGet.jpg" /></li>
+                <li class="list-group-item">Inside NuGet click on the "Browse" tab ( by Default you start on Installed tab )</li>
+                <li class="list-group-item">In the list you are looking for "Entity Framework by Microsoft", when you find it you click on it ( normely its one of the first 5 in the list )</li>
+                <li class="list-group-item">Now it will show some details about "Entity Framework by Microsoft" to the right side of the list including a Install button, click on the install button ( the Output window on the bottom of Visual Studio will popup and show the installation prosses )</li>
+                <li class="list-group-item">During the installation prosses it will popup a License agrement for using "Entity Framework", Accept it</li>
+            </ol>
+        </div>
     </div>
+    <div class="col-md-12">
+        <div class="row">
+            <h3>Step 2: Create DbContext Class</h3>
+            <ol class="list-group">
+                <li class="list-group-item">Inside your Models folder, Create a class file ( <a href="#DbContext">Example</a> )</li>
+                <li class="list-group-item">Add "DbContext" Inheritance to the class ( you will need too add "using System.Data.Entity;" )</li>
+                <li class="list-group-item">Create a Constructor for the class</li>
+                <li class="list-group-item">Add a base call to the Constructor with a hardcoded string as input param ( <a href="#DbContext">Example</a> )</li>
+                <li class="list-group-item">Add a DbSet for every Class you want Entity Framework to migrate to the database</li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <h3>Step 3: Modify Web.Config</h3>
+            <ol class="list-group">
+                <li class="list-group-item">Open Web.Config file in the root of your project<span id="hintWebConfig" class="glyphicon glyphicon-picture"></span><img id="imgWebConfig" src="~/Content/Img/WebConfig.jpg" /></li>
+                <li class="list-group-item">Inside Web.Config you will find the <span class="glyphicon glyphicon-chevron-left"></span>configuration<span class="glyphicon glyphicon-chevron-right"></span> tag</li>
+                <li class="list-group-item">Inside <span class="glyphicon glyphicon-chevron-left"></span>configuration<span class="glyphicon glyphicon-chevron-right"></span> you want to add a new tag <span class="glyphicon glyphicon-chevron-left"></span>connectionStrings<span class="glyphicon glyphicon-chevron-right"></span> <span id="hintCString" class="glyphicon glyphicon-picture"></span><img id="imgCString" src="~/Content/Img/ConnectionString.jpg" /></li>
+                <li class="list-group-item">Inside <span class="glyphicon glyphicon-chevron-left"></span>connectionStrings<span class="glyphicon glyphicon-chevron-right"></span> you want to add a new tag <span class="glyphicon glyphicon-chevron-left"></span>add<span class="glyphicon glyphicon-chevron-right"></span> ( <a href="#WebConfig">Example</a> )</li>
+                <li class="list-group-item">In the <span class="glyphicon glyphicon-chevron-left"></span>add<span class="glyphicon glyphicon-chevron-right"></span> tag you want to have the following attributes ( <a href="#WebConfig">Example</a> )
+                    <ol class="list-group">
+                        <li class="list-group-item">name="ConnectionName" ( Same name as you have in your DbContext class )</li>
+                        <li class="list-group-item">connectionString="Data Source=(LocalDb)\MSSQLLocalDB; ( Sets what type of database you are going to connect to, in our case its the Local MS-SQL )</li>
+                        <li class="list-group-item">AttachDbFilename=|DataDirectory|\MyDbFile.mdf; ( Defines were to place the database file and its name )</li>
+                        <li class="list-group-item">Initial Catalog=MyDbFile; ( Sets the default start catalog for the database )</li>
+                        <li class="list-group-item">Integrated Security=True" ( Becose were are using the local database we will use the windows authentication to login onto the database )</li>
+                        <li class="list-group-item">providerName="System.Data.SqlClient" ( Provides data access for MS-SQL Server )</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <hr />
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <h3>DbContext</h3>
-        <code>
-            public class MyDBcontext : DbContext
-            {
-            public MyDBcontext () : base("ConnectionName")
-            { }
+    <div id="DbContext" class="row">
+        <div class="col-md-12">
+            <h3>DbContext</h3>
+            <code>
+                public class MyDbContext : DbContext
+            </code><br />
+            <code>
+                {
+            </code><br />
+            <code class="oneTab">
+                public MyDbContext () : base("ConnectionName")
+            </code><br />
+            <code class="oneTab">
+                { }
+            </code><br />
 
-            public DbSet<ExClass>
+            <code class="oneTab">
+                public DbSet<span class="glyphicon glyphicon-chevron-left"></span>ExClass<span class="glyphicon glyphicon-chevron-right"></span>
                 ExClasses { get; set; }
-
+            </code><br />
+            <code>
                 }
-        </code>
+            </code>
+        </div>
+    </div>
+    <hr />
+    <div id="WebConfig" class="row">
+        <div class="col-md-12">
+            <h3>Web.Config</h3>
+
+            <code>
+                <span class="glyphicon glyphicon-chevron-left"></span>connectionStrings<span class="glyphicon glyphicon-chevron-right"></span>
+            </code>
+            <code class="oneTab">
+                <span class="glyphicon glyphicon-chevron-left"></span>add name="ConnectionName" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\MyDbFile.mdf;Initial Catalog=MyDbFile;Integrated Security=True" providerName="System.Data.SqlClient" /<span class="glyphicon glyphicon-chevron-right"></span>
+            </code>
+            <code>
+                <span class="glyphicon glyphicon-chevron-left"></span>/connectionStrings<span class="glyphicon glyphicon-chevron-right"></span>
+            </code>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Package Manager Console</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>For when you only have one DbContext</p>
+                    <code>
+                        Enable-Migrations -EnableAutomaticMigrations
+                    </code>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <p>For when you have more then one DbContext</p>
+                    <code>
+                        Enable-Migrations -ContextTypeName AppName.Models.MyDbContext -MigrationsDirectory Migrations\MyDbContext
+                    </code>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <p>For when you only have one DbContext</p>
+                    <code>
+                        Update-Database
+                    </code>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <p>If your changes of Class/Model might remove data from you Database</p>
+                    <code>
+                        Update-Database -Force
+                    </code>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <p>For when you have more then one Migrations Configuration</p>
+                    <code>
+                        Update-Database -ConfigurationTypeName AppName.Migrations.MyDbContext.Configuration
+                    </code>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <h3>Package Manager Console</h3>
-        <div class="row">
-            <p>For when you only have one DbContext</p>
-            <code>
-                Enable-Migrations -EnableAutomaticMigrations
-            </code>
-        </div>
-        <div class="row">
-            <p>For when you have more then one DbContext</p>
-            <code>
-                Enable-Migrations -ContextTypeName AppName.Models.MyDbContext -MigrationsDirectory Migrations\MyDbContext
-            </code>
-        </div>
-        <div class="row">
-            <p>For when you only have one DbContext</p>
-            <code>
-                Update-Database
-            </code>
-        </div>
-        <div class="row">
-            <p>If your changes of Class/Model might remove data from you Database</p>
-            <code>
-                Update-Database -Force
-            </code>
-        </div>
-        <div class="row">
-            <p>For when you have more then one Migrations Configuration</p>
-            <code>
-                Update-Database -ConfigurationTypeName AppName.Migrations.MyDbContext.Configuration
-            </code>
-        </div>
-    </div>
-</div>

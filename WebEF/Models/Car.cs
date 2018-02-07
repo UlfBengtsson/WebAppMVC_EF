@@ -10,5 +10,6 @@ namespace WebEF.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Brand { get; set; }
+        public virtual List<Inspection> Inspections { get; set; }
     }
 }
